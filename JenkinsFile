@@ -158,10 +158,10 @@ pipeline {
       steps {
         echo "Tagging the release..."
         script {
-          def commitId = bat(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+          def commitId = bat(script: '"C:\\Program Files\\Git\\bin\\git.exe" rev-parse --short HEAD', returnStdout: true).trim()
           def tag = "release-${commitId}"
-          bat "git tag ${tag}"
-          bat "git push origin ${tag}"
+          bat '"C:\\Program Files\\Git\\bin\\git.exe" tag ${tag}'
+          bat '"C:\\Program Files\\Git\\bin\\git.exe" push origin ${tag}'
         }
       }
     }
