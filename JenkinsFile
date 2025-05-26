@@ -72,9 +72,9 @@ pipeline {
 
 		// Configure tests to use Docker network
 		writeFile file: 'backend/.env.test', text: """
-			MONGODB_URI=mongodb://mongo:27017/notesdb  # Connect via Docker network
+			MONGODB_URI=mongodb://localhost:27018/notesdb  # Connect via Docker network
 			JWT_SECRET=${env.JWT_SECRET}
-		""".stripIndent()
+		"""
 		}
 
 		dir("${BACKEND_DIR}") {
