@@ -81,18 +81,8 @@ pipeline {
 		bat 'npm install'
 		bat 'npm test || echo "No tests defined yet"'
 		}
+		
 
-		post {
-		always {
-			bat """
-			docker-compose -p ${env.TEST_COMPOSE_PROJECT_NAME} ^
-				-f docker-compose.yaml ^
-				-f docker-compose.test.yaml ^
-				down --remove-orphans -v
-			"""
-			bat 'del docker-compose.test.yaml'
-		}
-		}
 	}
 	}
 
@@ -131,11 +121,18 @@ pipeline {
 		script {
 		// Create deployment-specific port override
 		writeFile file: 'docker-compose.deploy.yaml', text: """\
-	services:
-	  mongo:
-	    ports:
-		  - "27017:27017"  # Add host port binding ONLY for deployment
-	"""
+    services:
+      mongo:
+        ports:
+          - "27017:27017"
+      backend:
+        ports:
+          - "5001:5000"
+      frontend:
+        ports:
+          - "3001:80"
+
+    """
 		
 		echo "Deploying production stack..."
 		bat """
