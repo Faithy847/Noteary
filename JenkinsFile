@@ -47,7 +47,7 @@ pipeline {
 		writeFile file: 'docker-compose.test.yaml', text: """\
     services:
       mongo:
-    	  ports:
+        ports:
           - "27018:27017"
         networks:
           - notery-test-net
@@ -72,7 +72,7 @@ pipeline {
 
 		// Configure tests to use Docker network
 		writeFile file: 'backend/.env.test', text: """
-			MONGODB_URI=mongodb://mongo:27018/notesdb  # Connect via Docker network
+			MONGODB_URI=mongodb://mongo:27017/notesdb  # Connect via Docker network
 			JWT_SECRET=${env.JWT_SECRET}
 		""".stripIndent()
 		}
