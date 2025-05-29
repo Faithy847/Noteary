@@ -10,9 +10,9 @@ pipeline {
   }
 
   stages {
-	stage('Clean Workspace') {
-            steps {
-                deleteDir()
+    stage('Clean Workspace') {
+              steps {
+                  deleteDir()
             }
         }
 
@@ -153,26 +153,6 @@ pipeline {
 		}
 	}
 	}
-
-    stage('Release') {
-      steps {
-        echo "Tagging the release..."
-        script {
-          def commitId = bat(script: '"C:\\Program Files\\Git\\bin\\git.exe" rev-parse --short HEAD', returnStdout: true).trim()
-          def tag = "release-${commitId}"
-          bat '"C:\\Program Files\\Git\\bin\\git.exe" tag ${tag}'
-          bat '"C:\\Program Files\\Git\\bin\\git.exe" push origin ${tag}'
-        }
-      }
-    }
-
-    stage('Monitoring') {
-      steps {
-        echo "Verifying service health..."
-        bat 'curl -f http://localhost:3000 || echo "Frontend may not be ready"'
-        bat 'curl -f http://localhost:5000 || echo "Backend may not be ready"'
-      }
-    }
 
   }
 
